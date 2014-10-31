@@ -4,12 +4,23 @@ Template.postSubmit.events({
 
     var post = {
        url : $(e.target).find('[name=url]').val(),
-       title: $(e.target).find('[name=title]').val(),
-       flagged: false
+       title: $(e.target).find('[name=title]').val()
     };
 
-    post._id = Posts.insert(post);
-    Router.go('postPage',post);
+    Meteor.call('postInsert' , post , function(err,result){
+
+      if(err)
+        {
+           return alert(err.reason);
+        }
+        if(result.postExists){
+          alert('This link already exists');
+        }
+
+        Router.go('postPage',{_id: result._id}});
+    });
+
+
   }
 
 });
