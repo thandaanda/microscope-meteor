@@ -14,7 +14,7 @@ Template.postEdit.events({
       } else {
 
         if(result.postExists)
-          alert('This link already exists');
+          Router.go('postPage', {_id: result._id});
 
         Router.go('postPage', {_id: currentPostId});
       }
