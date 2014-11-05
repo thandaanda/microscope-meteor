@@ -10,9 +10,9 @@ Template.postSubmit.events({
     Meteor.call('postInsert' , post , function(err,result){
 
       if(err)
-          alert(error.reason);
+          alert(err.reason);
 
-        if(err.error == 302)
+        if(result.postExists == 302)
           Router.go('postPage',  {_id: error.details});
 
 
