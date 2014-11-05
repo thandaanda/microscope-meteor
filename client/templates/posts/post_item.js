@@ -17,6 +17,26 @@ Template.postItem.helpers({
   }
 })
 
+Template.postItem.rendered = function(){
+  var instance =this;
+  var rank = instance._rank;
+  var $this = $(this.firstNode);
+  var postHeight = 80;
+  var newPosition = rank * postHeight;
+  if (typeof(instance.currentPosition) !== 'undefined') {
+    var previousPosition = instance.currentPosition;
+    var delta = previousPosition - newPosition;
+    $this.css("top", delta + "px");
+  }
+  // let it draw in the old position, then..
+  Meteor.defer(function() {
+    instance.currentPosition = newPosition;
+    // bring element back to its new original position
+    $this.css("top", "0px");
+  });
+
+};
+
 Template.postItem.events({
   'click .upvote' : function(e){
     e.preventDefault();
